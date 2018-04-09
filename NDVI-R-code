@@ -1,0 +1,32 @@
+#Processing Raster data Using R, the output is an NDVI Map as well as a histogram displaying the distribution of the NDVI values
+
+
+```{r setup, include=FALSE}
+library(raster)
+library(rgdal)
+library(ggplot2)
+
+landsat8 = brick("Filepath")
+
+#deriving information about metadata
+print(landsat8)
+
+#plotting initial landsat bands
+plot(landsat8)
+
+plotRGB(landsat8,axes = TRUE, r = 4, g = 3, b = 2, stretch = "lin", main = "Bands432")
+
+#initializing NDVI
+band4 = raster(landsat8, layer=4)
+band5 = raster(landsat8, layer=5)
+
+NDVI = (band5 - band4)/(band5 + band4)
+
+plot(NDVI)
+
+hist(NDVI,
+     main = "Landsat NDVI",
+     border = "Blue",
+     col = "springgreen",
+     xlab = "NDVI Value"
+```
